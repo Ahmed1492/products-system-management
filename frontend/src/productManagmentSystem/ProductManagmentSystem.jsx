@@ -50,10 +50,17 @@ export default function ProductManagmentSystem() {
 
   const sendData = async (e) => {
     e.preventDefault();
+
+    if (
+      inpData.name === "" ||
+      inpData.description === "" ||
+      inpData.price === ""
+    ) {
+      return alert("Please Fill All Data");
+    }
     try {
       if (inpData.price === 0) {
-        alert("Not valid price");
-        return null;
+        return alert("Not valid price");
       }
 
       let myresponse = await axios.post(

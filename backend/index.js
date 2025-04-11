@@ -33,28 +33,29 @@ app.get('/product', (req, res) => {
 
 
 // Add Products
-app.post('/product', (req, res, next) => {
-  try {
-    const { name, price, description } = req.body;
-    if (!name || !price || !description) {
-      return res.json({ success: false, message: 'Please Fill All Data' });
-    }
-    connection.query(`INSERT INTO products (name , price , description) VALUES (? , ? , ?)`, [name, price, description]);
+app.post('/product', (req, res) => {
+  const { name, price, description } = req.body;
 
-    connection.query(`SELECT * from products`, (err, result) => {
-      console.log(result);
-      if (result.affectedRows !== 0) {
-        return res.json({ status: 202, message: 'Product Added Successfully!', result });
-
-      }
-      return res.json({ success: false, message: 'Some Thing Went Wrong! ' });
-
-
-    });
-  } catch (error) {
-    console.log(error);
-
+  if (!name || !price || !description) {
+    return res.status(400).json({ success: false, message: 'Please provide name, price, and description.' });
   }
+
+  connection.query(
+    `INSERT INTO products (name, price, description) VALUES (?, ?, ?)`,
+    [name, price, description],
+    (err, result) => {
+      if (err) {
+        console.error('DB Error:', err);
+        return res.status(500).json({ success: false, message: 'Database Error' });
+      }
+
+      if (result.affectedRows === 0) {
+        return res.status(500).json({ success: false, message: 'Failed to add product' });
+      }
+
+      return res.status(201).json({ success: true, message: 'Product Added Successfully!' });
+    }
+  );
 });
 
 // Update Products
@@ -63,7 +64,7 @@ app.patch('/product/:id', (req, res) => {
   const { name, price } = req.body;
 
   if (!id || !name || !price) {
-    return res.json({ success: false, message: 'Please Fill All Data' });
+    return res.status(400).json({ success: false, message: 'Product ID, name, and price are required' });
   }
 
   connection.query(
@@ -79,10 +80,11 @@ app.patch('/product/:id', (req, res) => {
         return res.status(404).json({ success: false, message: 'Product Not Found' });
       }
 
-      return res.status(202).json({ success: true, message: 'Product Updated Successfully!' });
+      return res.status(200).json({ success: true, message: 'Product Updated Successfully!' });
     }
   );
 });
+
 
 
 // Delete Products
@@ -90,11 +92,11 @@ app.delete('/product/:id', (req, res) => {
   const { id } = req.params;
 
   if (!id) {
-    return res.json({ success: false, message: 'Please Fill All Data' });
+    return res.status(400).json({ success: false, message: 'Product ID is required' });
   }
 
   connection.query(
-    `DELETE FROM products WHERE id =? `, [id],
+    `DELETE FROM products WHERE id = ?`, [id],
     (err, result) => {
       if (err) {
         console.error('DB Error:', err);
@@ -105,32 +107,32 @@ app.delete('/product/:id', (req, res) => {
         return res.status(404).json({ success: false, message: 'Product Not Found' });
       }
 
-      return res.status(202).json({ success: true, message: 'Product Deleted Successfully!' });
+      return res.status(200).json({ success: true, message: 'Product Deleted Successfully!' });
     }
   );
 });
 
+
 // Get Certin Product
 
-app.get('/product/:id', (req, res, next) => {
+app.get('/product/:id', (req, res) => {
   const { id } = req.params;
   if (!id) {
-    return res.status(500).json({ success: false, message: 'Database Error' });
+    return res.status(400).json({ success: false, message: 'Product ID is required' });
   }
-  connection.query(`SELECT * FROM products WHERE id =?`, [id], (error, result) => {
+
+  connection.query(`SELECT * FROM products WHERE id = ?`, [id], (error, result) => {
     if (error) {
-      console.error('DB Error:', err);
+      console.error('DB Error:', error);
       return res.status(500).json({ success: false, message: 'Database Error' });
     }
 
     if (result.length === 0) {
-
-      return res.status(500).json({ success: false, message: 'Not Found Product!' });
+      return res.status(404).json({ success: false, message: 'Product not found' });
     }
-    return res.status(202).json({ success: true, result });
 
+    return res.status(200).json({ success: true, result });
   });
-
 });
 
 

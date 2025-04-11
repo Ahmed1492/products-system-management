@@ -1,4 +1,10 @@
 .container1 {
+  button {
+    outline: none;
+    cursor: pointer;
+  }
+  font-family: Arial, Helvetica, sans-serif;
+
   h1 {
     font-size: 42px;
     text-align: center;
@@ -29,6 +35,8 @@
       padding: 9px;
       font-size: 17px;
       background-color: #1c84d7;
+      border: 1px solid #1c84d7;
+
       border-radius: 8px;
       color: #fff;
     }
@@ -77,11 +85,15 @@
 
     .deleteBtn {
       background-color: #d41a0c;
+      border: 1px solid #d41a0c;
+
 
     }
 
     .updateBtn {
       background-color: #ff9800;
+      border: 1px solid #ff9800;
+
     }
   }
 
