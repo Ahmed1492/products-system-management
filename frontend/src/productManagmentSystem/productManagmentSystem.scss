@@ -1,0 +1,88 @@
+.container1 {
+  h1 {
+    font-size: 42px;
+    text-align: center;
+    margin-top: 5rem;
+    font-weight: 500;
+  }
+
+  .inputs {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 4rem;
+
+    input {
+      width: 80%;
+      margin: auto;
+      padding: 9px 12px;
+      font-size: 16px;
+      outline: none;
+      border: 1px solid rgb(199, 198, 198);
+      border-radius: 12px;
+    }
+
+    button {
+      width: 80%;
+      margin: auto;
+      padding: 9px;
+      font-size: 17px;
+      background-color: #1c84d7;
+      border-radius: 8px;
+      color: #fff;
+    }
+
+  }
+
+  .data {
+    width: 81%;
+    background-color: rgb(148 142 142);
+    margin: auto;
+    border-radius: 12px;
+    padding: 10px 19px;
+    margin-top: 2rem;
+
+    table {
+      // margin-top: 3rem;
+      width: 100%;
+
+
+      th {
+
+        text-align: left;
+        padding: 10px 0 10px 20px;
+        // border-bottom: 1px solid #fff;
+        color: #fff;
+        background-color: #232323;
+      }
+
+      td {
+        text-align: left;
+        padding: 9px 0 9px 20px;
+        // border-bottom: 1px solid #fff;
+        color: #fff;
+        border-bottom: 1px solid rgb(176, 166, 166);
+
+        button {
+          padding: 9px 16px;
+          color: #fff;
+          border-radius: 9px;
+          font-size: 16px;
+        }
+
+      }
+    }
+
+
+    .deleteBtn {
+      background-color: #d41a0c;
+
+    }
+
+    .updateBtn {
+      background-color: #ff9800;
+    }
+  }
+
+}
